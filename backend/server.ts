@@ -17,7 +17,15 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use("/api/users", UserRoutes);
 
-app.listen(PORT, () => {
-  connectDB();
-  console.log(`Listening on port: ${PORT}`);
-});
+async function startServer() {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`Listening on port: ${PORT}`);
+    });
+  } catch (error) {
+    console.error(`Failed to start server: ${error}`);
+  }
+}
+
+startServer();
