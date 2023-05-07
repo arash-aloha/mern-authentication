@@ -17,6 +17,11 @@ export async function connectDB() {
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
+  } catch (err) {
+    console.error("Failed to connect to MongoDB:", {
+      error_message: err.message,
+      error: err,
+    });
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close();
