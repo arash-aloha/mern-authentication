@@ -6,33 +6,40 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .ts",
-    "dev": "nodemon server.ts",
+    "start": "nodemon server.ts",
+    "ts-node": "ts-node-dev server.ts",
     "build": "npx tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-jwt": "^8.4.1",
+    "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.3.0",
-    "mongoose": "^7.1.0"
+    "mongoose": "^7.1.0",
+    "mongoose-unique-validator": "^4.0.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/mongoose": "^5.11.97",
+    "@types/mongoose-unique-validator": "^1.0.7",
     "@types/node": "^18.16.3",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
     "eslint": "^8.39.0",
     "eslint-plugin-react": "^7.32.2",
     "nodemon": "^2.0.22",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.0.4"
   }
 }
