@@ -1,7 +1,6 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 import * as mongoDB from "mongodb";
 import * as dotenv from "dotenv";
-import mongoose from "mongoose";
 
 // export async function connectDB() {
 //   dotenv.config({ path: "./config/.env" });

@@ -4,7 +4,7 @@
     "sourceMap": true,
     "moduleResolution": "node",
     "outDir": "dist",
-    "baseUrl": "src"
-  },
-  "include": ["src/**/*"]
+    "baseUrl": "src",
+    "esModuleInterop": true
+  }
 }
