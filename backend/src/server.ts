@@ -6,7 +6,7 @@ import { connectDB } from "./db/database";
 import UserRoutes from "./routes/userRoutes";
 
 import * as dotenv from "dotenv";
-dotenv.config({ path: "./config/.env" });
+dotenv.config({ path: "src/config/.env" });
 
 const app: Application = express();
 const PORT: string = process.env.PORT;
