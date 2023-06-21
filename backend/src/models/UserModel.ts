@@ -1,5 +1,4 @@
-import mongoose, { Document, Schema, Types, model } from "mongoose";
-// import uniqueValidator from "mongoose-unique-validator";
+import mongoose, { Document, Schema, model } from "mongoose";
 
 export interface IUser {
   username?: string;

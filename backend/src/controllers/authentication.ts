@@ -6,8 +6,14 @@ import { hashPassword, generateSalt } from "../helpers/authenticationHelper";
 export const signupNewUser = async (req: Request, res: Response) => {
   try {
     const { email, password, firstName, lastName, username } = req.body;
-    const validationError = validateBody(email, password, firstName);
-    console.log("validate body");
+    const validationError = validateBody({
+      email,
+      password,
+      firstName,
+      lastName,
+      username,
+    });
+
     if (validationError) {
       console.log(validationError);
       return res
@@ -47,14 +53,24 @@ export const signupNewUser = async (req: Request, res: Response) => {
   }
 };
 
-export function validateBody(
-  email: string,
-  password: string,
-  firstName: string
-): { statusCode: number; message: string } {
-  if (!email) return createErrorResponse("email", email);
-  if (!password) return createErrorResponse("password", password);
-  if (!firstName) return createErrorResponse("first name", firstName);
+export function validateBody(userInput: Object): {
+  statusCode: number;
+  message: string;
+} | null {
+  const requiredFields = {
+    email: "email",
+    password: "password",
+    firstName: "first name",
+    lastName: "last name",
+    username: "username",
+  };
+
+  for (const field in requiredFields) {
+    if (!userInput[field]) {
+      return createErrorResponse(requiredFields[field], userInput[field]);
+    }
+  }
+
   return null; //validation successful
 }
 

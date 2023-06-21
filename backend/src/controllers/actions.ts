@@ -24,7 +24,6 @@ export const getUserBySessionToken = async (sessionToken: string) =>
 export const createUser = async (values: Record<string, any>) => {
   try {
     const result = await new UserModel(values).save();
-    console.log("[create user]: result: ", result);
     return result;
   } catch (error) {
     console.log("ERROR - creating user: ", error);
