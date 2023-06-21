@@ -5,16 +5,31 @@ export const getUsers = async () => await UserModel.find();
 
 export const getUserById = async (id: string) => await UserModel.findById(id);
 
-export const getUserByEmail = async (email: string) =>
-  await UserModel.findOne({ email });
+export const getUserByEmail = async (email: string) => {
+  try {
+    const result = await UserModel.findOne({ email }).exec();
+    console.log("[find user]: result: ", result);
+    return result;
+  } catch (error) {
+    console.log("ERROR: ", error);
+    return null;
+  }
+};
 
 export const getUserBySessionToken = async (sessionToken: string) =>
   await UserModel.findOne({
     "authentication.sessionToken": sessionToken,
   });
 
-export const createUser = async (values: Record<string, any>) =>
-  await new UserModel(values).save().then((user) => user.toObject());
+export const createUser = async (values: Record<string, any>) => {
+  try {
+    const result = await new UserModel(values).save();
+    console.log("[create user]: result: ", result);
+    return result;
+  } catch (error) {
+    console.log("ERROR - creating user: ", error);
+  }
+};
 
 export const deleteUserById = async (id: string) =>
   await UserModel.findOneAndDelete({ _id: id });

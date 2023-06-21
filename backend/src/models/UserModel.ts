@@ -1,16 +1,15 @@
-import { Document, Schema, Types, model } from "mongoose";
-import * as bcrypt from "bcrypt";
+import mongoose, { Document, Schema, Types, model } from "mongoose";
 // import uniqueValidator from "mongoose-unique-validator";
 
 export interface IUser {
-  username: string;
-  email: string;
-  hashedPassword: string;
-  firstName: string;
-  lastName: string;
-  confirmed: boolean;
-  role: "admin" | "user" | undefined;
-  authentication: any;
+  username?: string;
+  email?: string;
+  hashedPassword?: string;
+  firstName?: string;
+  lastName?: string;
+  confirmed?: boolean;
+  role?: "admin" | "user" | undefined;
+  authentication?: any;
 }
 
 export interface IUserInput {
@@ -22,25 +21,24 @@ export interface IUserInput {
 export interface IUserDocument extends IUser, Document {
   createdAt?: Date;
   updatedAt?: Date;
-  userId?: Types.ObjectId;
 }
 
 // //defines the schema structure
-const UserSchema: Schema<IUserDocument> = new Schema(
+export const UserSchema: Schema<IUserDocument> = new Schema(
   {
-    // username: {
-    //   type: String,
-    //   lowercase: true,
-    //   match: [/^[a-zA-Z0-9]+$/, "is invalid"],
-    //   index: true,
-    //   unique: true,
-    // },
+    username: {
+      type: String,
+      lowercase: true,
+      // match: [/^[a-zA-Z0-9]+$/, "is invalid"],
+      // index: true,
+      unique: true,
+    },
     firstName: {
       type: String,
     },
-    // lastName: {
-    //   type: String,
-    // },
+    lastName: {
+      type: String,
+    },
     email: {
       unique: true,
       type: String,
@@ -49,27 +47,33 @@ const UserSchema: Schema<IUserDocument> = new Schema(
       match: [/\S+@\S+\.\S+/, "is invalid"],
       // index: true,
     },
-    userId: {
-      type: Schema.Types.ObjectId,
-      unique: true,
-      ref: "User ID",
-    },
     // role: {
     //   type: String,
     //   enum: ["admin", "user"],
     //   default: "user",
     // },
     authentication: {
-      password: { type: String, required: true, select: false },
+      hashedPassword: { type: String, required: true, select: false },
       salt: { type: String, select: false },
       sessionToken: { type: String, select: false },
     },
   },
   {
     timestamps: true,
-    // bufferCommands: false,
+    bufferCommands: true,
   }
 );
 
 const UserModel = model<IUserDocument>("User", UserSchema);
+
+export async function connectModelToMongoose(mongoDbUri: string) {
+  try {
+    await mongoose.connect(mongoDbUri);
+    await mongoose.model<IUserDocument>("User", UserSchema);
+    console.log("Mongoose model connected");
+  } catch (error) {
+    console.log("Mongoose did not connect", error);
+  }
+}
+
 export default UserModel;
