@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema, model } from "mongoose";
+import { pbkdf2Sync, randomBytes } from "node:crypto";
 
 export interface IUser {
   username?: string;
@@ -64,15 +65,5 @@ export const UserSchema: Schema<IUserDocument> = new Schema(
 );
 
 const UserModel = model<IUserDocument>("User", UserSchema);
-
-export async function connectModelToMongoose(mongoDbUri: string) {
-  try {
-    await mongoose.connect(mongoDbUri);
-    await mongoose.model<IUserDocument>("User", UserSchema);
-    console.log("Mongoose model connected");
-  } catch (error) {
-    console.log("Mongoose did not connect", error);
-  }
-}
 
 export default UserModel;

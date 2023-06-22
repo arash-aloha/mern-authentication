@@ -1,11 +1,11 @@
 import { Request, Response, Router } from "express";
-import { signupNewUser } from "../controllers/authentication";
+import { signupController } from "../controllers/controller.signup";
 
 const UserRoutes: Router = Router();
 
 UserRoutes.post("/login");
 
-UserRoutes.post("/signup", signupNewUser);
+UserRoutes.post("/signup", signupController);
 
 UserRoutes.get("/", (req: Request, res: Response) => {
   res.send({ res: "GET all users" });

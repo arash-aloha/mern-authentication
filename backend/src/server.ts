@@ -6,7 +6,7 @@ import { connectDB } from "./db/database";
 import UserRoutes from "./routes/userRoutes";
 
 import * as dotenv from "dotenv";
-import { connectModelToMongoose } from "./models/UserModel";
+import { initiateModelWithMongoose } from "./db/initiateModel";
 dotenv.config({ path: "src/config/.env" });
 
 const app: Application = express();
@@ -25,7 +25,7 @@ app.use("/api/users", UserRoutes);
 async function startServer() {
   try {
     await connectDB();
-    await connectModelToMongoose(process.env.MONGO_URI);
+    await initiateModelWithMongoose(process.env.MONGO_URI);
     app.listen(PORT, () => {
       console.log(`Listening on port: ${PORT}`);
     });

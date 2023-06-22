@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 
-import { createUser, getUserByEmail } from "./actions";
-import { hashPassword, generateSalt } from "../helpers/authenticationHelper";
+import { signupService } from "../services/service.signup";
+import { getUserByEmail } from "../services/service.helper";
+import { validateBody } from "../helpers/helper.validateRequestBody";
+import { setPassword } from "../helpers/helper.authentication";
 
-export const signupNewUser = async (req: Request, res: Response) => {
+export const signupController = async (req: Request, res: Response) => {
   try {
     const { email, password, firstName, lastName, username } = req.body;
     const validationError = validateBody({
@@ -27,18 +29,19 @@ export const signupNewUser = async (req: Request, res: Response) => {
       return res.sendStatus(409);
     }
 
-    const salt = await generateSalt();
+    const passwordData = await setPassword(password);
 
-    const newUser = await createUser({
+    const newUser = await signupService({
       email,
       firstName,
       lastName,
       username,
       authentication: {
-        salt,
-        hashedPassword: await hashPassword(salt, password),
+        salt: passwordData.salt,
+        hashedPassword: passwordData.hashedPassword,
       },
     });
+
     if (!newUser) {
       console.log("Failed to create a new user.");
       return res.status(500).send({
@@ -52,34 +55,3 @@ export const signupNewUser = async (req: Request, res: Response) => {
     return res.status(500).send({ message: error.message });
   }
 };
-
-export function validateBody(userInput: Object): {
-  statusCode: number;
-  message: string;
-} | null {
-  const requiredFields = {
-    email: "email",
-    password: "password",
-    firstName: "first name",
-    lastName: "last name",
-    username: "username",
-  };
-
-  for (const field in requiredFields) {
-    if (!userInput[field]) {
-      return createErrorResponse(requiredFields[field], userInput[field]);
-    }
-  }
-
-  return null; //validation successful
-}
-
-function createErrorResponse(
-  fieldName: string,
-  value: string
-): { statusCode: number; message: string } {
-  return {
-    statusCode: 400,
-    message: `Something wrong with ${fieldName}: ${value}`,
-  };
-}
