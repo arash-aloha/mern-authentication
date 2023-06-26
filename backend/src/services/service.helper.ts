@@ -5,7 +5,7 @@ export const getUserByEmail = async (email: string) => {
     const result = await UserModel.findOne({ email }).exec();
     return result;
   } catch (error) {
-    console.log("ERROR: ", error);
+    console.error("ERROR fetching email: ", error);
     return null;
   }
 };

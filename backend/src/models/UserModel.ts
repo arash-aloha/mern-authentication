@@ -20,6 +20,8 @@ export interface IUserInput {
   username: IUser["username"];
   email: IUser["email"];
   password: IUser["hashedPassword"];
+  firstName: IUser["firstName"];
+  lastName: IUser["lastName"];
 }
 
 export interface IUserDocument extends IUser, Document {
@@ -71,7 +73,9 @@ export const UserSchema = new Schema<IUserDocument>(
   }
 );
 
-UserSchema.methods.setPassword = async function (password: string) {
+UserSchema.methods.setPassword = async function (
+  password: string
+): Promise<void> {
   try {
     // Creating a unique salt for a particular user
     this.authentication.salt = await randomBytes(16).toString("hex");

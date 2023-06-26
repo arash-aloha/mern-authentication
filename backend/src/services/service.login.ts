@@ -5,14 +5,13 @@ export const loginService = async (
   password: IUserInput["password"]
 ) => {
   try {
+    const documentFieldsToInclude =
+      "+authentication.salt +authentication.hashedPassword";
     const result = await UserModel.findOne({ email }).select(
-      "+authentication.salt +authentication.hashedPassword"
+      documentFieldsToInclude
     );
-    const expectedHashedPassword = await result.validatePassword(
-      password,
-      result.authentication.salt
-    );
-    console.log("password correct", expectedHashedPassword);
+    await result.validatePassword(password, result.authentication.salt);
+
     return {
       message: "Logged in.",
       statusCode: 200,

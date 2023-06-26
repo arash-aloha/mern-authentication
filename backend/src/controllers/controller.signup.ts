@@ -17,7 +17,6 @@ export const signupController = async (req: Request, res: Response) => {
     });
 
     if (validationError) {
-      console.log(validationError);
       return res
         .status(validationError.statusCode)
         .json({ message: validationError.message });
@@ -25,32 +24,20 @@ export const signupController = async (req: Request, res: Response) => {
 
     const existingUser = await getUserByEmail(email);
     if (existingUser) {
-      console.log("existing user", existingUser);
-      return res.sendStatus(409);
+      return res.status(409).json({ message: "User already exists." });
     }
-
-    const passwordData = await setPassword(password);
 
     const newUser = await signupService({
       email,
       firstName,
       lastName,
       username,
-      authentication: {
-        salt: passwordData.salt,
-        hashedPassword: passwordData.hashedPassword,
-      },
+      password,
     });
 
-    if (!newUser) {
-      console.log("Failed to create a new user.");
-      return res.status(500).json({
-        message: "Failed to create a new user.",
-      });
-    }
-    return res
-      .status(200)
-      .json({ message: "New user has been created.", newUser });
+    newUser
+      ? res.status(newUser.statusCode).json({ message: newUser.message })
+      : res.status(newUser.statusCode).json({ message: newUser.message });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
