@@ -13,7 +13,7 @@ export async function setPassword(password: string): Promise<{
   };
 }
 
-export async function validatePassword(password: string, salt: string) {
-  const hash = pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
-  return hash;
-}
+// export async function validatePassword(password: string, salt: string) {
+//   const hash = pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
+//   return hash;
+// }

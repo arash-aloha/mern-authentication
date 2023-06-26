@@ -24,9 +24,8 @@ export async function connectDB() {
     // prettier-ignore
     const userCollection: mongoDB.Collection = database.collection(collectionName);
 
-    console.log(
-      `Successfully connected to database: ${database.databaseName} and collection: ${userCollection.collectionName}`
-    );
+    console.log(`Successfully connected to database: ${database.databaseName}`);
+    console.log(`collection: ${userCollection.collectionName}`);
   } catch (error) {
     console.error("Oops... Connection to Database broke.", error);
   } finally {

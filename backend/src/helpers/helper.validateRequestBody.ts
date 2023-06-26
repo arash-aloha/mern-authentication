@@ -1,18 +1,18 @@
-export function validateBody(userInput: Object): {
+interface RequiredFields {
+  email?: string;
+  password?: string;
+  firstName?: string;
+  lastName?: string;
+  username?: string;
+}
+
+export function validateBody(userInput: RequiredFields): {
   statusCode: number;
   message: string;
 } | null {
-  const requiredFields = {
-    email: "email",
-    password: "password",
-    firstName: "first name",
-    lastName: "last name",
-    username: "username",
-  };
-
-  for (const field in requiredFields) {
+  for (const field in userInput) {
     if (!userInput[field]) {
-      return createErrorResponse(requiredFields[field], userInput[field]);
+      return createErrorResponse(field, userInput[field]);
     }
   }
 

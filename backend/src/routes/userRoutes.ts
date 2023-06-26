@@ -1,9 +1,10 @@
 import { Request, Response, Router } from "express";
 import { signupController } from "../controllers/controller.signup";
+import { loginController } from "../controllers/controller.login";
 
 const UserRoutes: Router = Router();
 
-UserRoutes.post("/login");
+UserRoutes.post("/login", loginController);
 
 UserRoutes.post("/signup", signupController);
 

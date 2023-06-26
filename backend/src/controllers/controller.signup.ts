@@ -20,7 +20,7 @@ export const signupController = async (req: Request, res: Response) => {
       console.log(validationError);
       return res
         .status(validationError.statusCode)
-        .send({ message: validationError.message });
+        .json({ message: validationError.message });
     }
 
     const existingUser = await getUserByEmail(email);
@@ -44,7 +44,7 @@ export const signupController = async (req: Request, res: Response) => {
 
     if (!newUser) {
       console.log("Failed to create a new user.");
-      return res.status(500).send({
+      return res.status(500).json({
         message: "Failed to create a new user.",
       });
     }
@@ -52,6 +52,6 @@ export const signupController = async (req: Request, res: Response) => {
       .status(200)
       .json({ message: "New user has been created.", newUser });
   } catch (error) {
-    return res.status(500).send({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
