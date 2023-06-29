@@ -40,15 +40,13 @@ export const loginController = async (req: Request, res: Response) => {
     console.log("response in controller: ", user);
     return user
       ? {
-          message: res.json({ message: user.message }),
           statusCode: res.status(user.statusCode),
+          message: res.json({ message: user.message }),
         }
       : {
-          message: res.json({ message: user.message }),
           statusCode: res.status(user.statusCode),
+          message: res.json({ message: user.message }),
         };
-
-    console.log("Controller done.");
   } catch (error) {
     console.log("ERROR in Login controller", error);
     return res.status(500).json({ message: error.message });
