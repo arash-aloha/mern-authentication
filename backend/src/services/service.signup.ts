@@ -22,9 +22,9 @@ export async function signupService(values: IUserInput) {
           statusCode: 401,
         };
   } catch (error) {
-    console.error("ERROR - creating user: ", error);
+    console.error("ERROR in service - creating user: ", error);
     return {
-      message: "Could not create user",
+      message: error.message,
       statusCode: 500,
     };
   }

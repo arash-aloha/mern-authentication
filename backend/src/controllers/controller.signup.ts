@@ -2,13 +2,13 @@ import { Request, Response } from "express";
 
 import { signupService } from "../services/service.signup";
 import { getUserByEmail } from "../services/service.helper";
-import { validateBody } from "../helpers/helper.validateRequestBody";
-import { setPassword } from "../helpers/helper.authentication";
+import { validateRequestBodyForSignup } from "../helpers/helper.validateRequestBody";
 
 export const signupController = async (req: Request, res: Response) => {
   try {
     const { email, password, firstName, lastName, username } = req.body;
-    const validationError = validateBody({
+    // validatebody function needs to be refactored
+    const validationError = await validateRequestBodyForSignup({
       email,
       password,
       firstName,
@@ -35,9 +35,15 @@ export const signupController = async (req: Request, res: Response) => {
       password,
     });
 
-    newUser
-      ? res.status(newUser.statusCode).json({ message: newUser.message })
-      : res.status(newUser.statusCode).json({ message: newUser.message });
+    return newUser
+      ? {
+          message: res.json({ message: newUser.message }),
+          statusCode: res.status(newUser.statusCode),
+        }
+      : {
+          message: res.json({ message: newUser.message }),
+          statusCode: res.status(newUser.statusCode),
+        };
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

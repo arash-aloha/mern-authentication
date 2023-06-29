@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { validateBody } from "../helpers/helper.validateRequestBody";
+import {
+  identifyUsernameOrEmailType,
+  identifyUsernameOrEmailValue,
+  validateRequestBodyForLogin,
+} from "../helpers/helper.validateRequestBody";
 import { loginService } from "../services/service.login";
 
 export const loginController = async (req: Request, res: Response) => {
@@ -7,32 +11,46 @@ export const loginController = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
 
     // Determine the field (username | email on the FE) used for login
-    const loginField = username ? "username" : "email";
-    const loginValue = username ? username : email;
+    const userIdType = await identifyUsernameOrEmailType(username);
+    const userIdValue = await identifyUsernameOrEmailValue(username, email);
+
+    console.log("user id type: ", userIdType);
+    console.log("user id value: ", userIdValue);
 
     if (!username && !email) {
       return res.status(400).json({
         message: "Please provide either username or email for login.",
       });
     }
-    const validationError = validateBody({
-      [loginField]: loginValue,
+    console.log("password in controller", password);
+    const validationError = await validateRequestBodyForLogin({
+      userIdType,
       password,
     });
 
     if (validationError) {
-      console.log("Something went wrong when validating request body.");
+      console.error("Something went wrong when validating request body.");
       return res
         .status(validationError.statusCode)
         .json({ message: validationError.message });
     }
 
     // log in
-    const user = await loginService(email, password);
+    const user = await loginService(userIdValue, password);
+    console.log("response in controller: ", user);
     return user
-      ? res.status(user.statusCode).json({ message: user.message })
-      : res.status(user.statusCode).json({ message: user.message });
+      ? {
+          message: res.json({ message: user.message }),
+          statusCode: res.status(user.statusCode),
+        }
+      : {
+          message: res.json({ message: user.message }),
+          statusCode: res.status(user.statusCode),
+        };
+
+    console.log("Controller done.");
   } catch (error) {
     console.log("ERROR in Login controller", error);
+    return res.status(500).json({ message: error.message });
   }
 };
