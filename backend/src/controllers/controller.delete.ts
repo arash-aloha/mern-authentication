@@ -1,26 +1,14 @@
 import { Request, Response } from "express";
-import { patchService } from "../services/service.patch";
 import { checkIsValidId } from "../services/service.utils";
-import { validateRequestBody } from "../helpers/helper.validateRequestBody";
+import { deleteService } from "../services/service.delete";
 
-export const patchController = async (req: Request, res: Response) => {
+export const deleteController = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-    const update = req.body;
-    const option = { new: true };
-
     if (!checkIsValidId(id)) {
       return res.status(404).json({ message: "This is not a valid ID" });
     }
-
-    const validationError = await validateRequestBody(update);
-    if (validationError) {
-      return res
-        .status(validationError.statusCode)
-        .json(validationError.message);
-    }
-
-    const user = await patchService(id, update, option);
+    const user = await deleteService(id);
     return user
       ? {
           statusCode: res.status(user.statusCode),
@@ -31,7 +19,7 @@ export const patchController = async (req: Request, res: Response) => {
           message: res.json(user.message),
         };
   } catch (error) {
-    console.log("error in controller patch");
+    console.log("error in controller delete");
     console.error(error.message);
     return {
       statusCode: res.status(500).json({ message: error.message }),
