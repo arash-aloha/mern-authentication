@@ -9,7 +9,7 @@ export async function connectDB() {
   const collectionName = process.env.COLLECTION;
   const databaseOptions = {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useUnifiedTopology: true,
     monitorCommands: true,
   };
 

@@ -41,11 +41,11 @@ export const loginController = async (req: Request, res: Response) => {
     return user
       ? {
           statusCode: res.status(user.statusCode),
-          message: res.json({ message: user.message }),
+          message: res.json(user.message),
         }
       : {
           statusCode: res.status(user.statusCode),
-          message: res.json({ message: user.message }),
+          message: res.json(user.message),
         };
   } catch (error) {
     console.log("ERROR in Login controller", error);

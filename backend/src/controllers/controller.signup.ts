@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 
 import { signupService } from "../services/service.signup";
-import { getUserByEmail } from "../services/service.helper";
-import { validateRequestBodyForSignup } from "../helpers/helper.validateRequestBody";
+import { getUserByEmail } from "../services/service.utils";
+import { validateRequestBody } from "../helpers/helper.validateRequestBody";
 
 export const signupController = async (req: Request, res: Response) => {
   try {
     const { email, password, firstName, lastName, username } = req.body;
     // validatebody function needs to be refactored
-    const validationError = await validateRequestBodyForSignup({
+    const validationError = await validateRequestBody({
       email,
       password,
       firstName,
