@@ -10,7 +10,7 @@ import { initiateModelWithMongoose } from "./db/initiateModel";
 dotenv.config({ path: "src/config/.env" });
 
 const app: Application = express();
-const PORT: string = process.env.PORT;
+const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 app.use(cors());

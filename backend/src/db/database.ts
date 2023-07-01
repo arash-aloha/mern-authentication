@@ -2,7 +2,7 @@ import * as mongoDB from "mongodb";
 import * as dotenv from "dotenv";
 
 export async function connectDB() {
-  dotenv.config({ path: "src/config/.env" });
+  dotenv.config();
 
   const uri: string = process.env.MONGO_URI;
   const databaseName = process.env.DB;
