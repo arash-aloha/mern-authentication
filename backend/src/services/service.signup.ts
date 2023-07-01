@@ -2,7 +2,7 @@ import UserModel, { IUserDocument, IUserInput } from "../models/UserModel";
 
 export async function signupService(values: IUserInput) {
   try {
-    let user = new UserModel<IUserDocument>();
+    const user = new UserModel<IUserDocument>();
     user.email = values.email;
     user.firstName = values.firstName;
     user.lastName = values.lastName;
@@ -10,8 +10,6 @@ export async function signupService(values: IUserInput) {
     await user.setPassword(values.password);
 
     const newUserToDatabase = await user.save();
-    console.log("USER TO DATABASE: ");
-    console.log("- ", newUserToDatabase);
     return newUserToDatabase
       ? {
           message: "New user created.",

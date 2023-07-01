@@ -20,8 +20,8 @@ export async function validateRequestBodyForLogin(loginFields: {
   statusCode: number;
   message: string;
 } | null> {
-  let userIdFieldValue = Object.values(loginFields)[0];
-  let passwordFieldValue = Object.values(loginFields)[1];
+  const userIdFieldValue = Object.values(loginFields)[0];
+  const passwordFieldValue = Object.values(loginFields)[1];
 
   if (!passwordFieldValue) {
     return createErrorResponse("password field", passwordFieldValue);
