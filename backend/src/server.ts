@@ -1,3 +1,4 @@
+import dotenv from "dotenv";
 import express, { Application, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -5,9 +6,9 @@ import cors from "cors";
 import { connectDB } from "./db/database";
 import UserRoutes from "./routes/userRoutes";
 
-import * as dotenv from "dotenv";
 import { initiateModelWithMongoose } from "./db/initiateModel";
-dotenv.config({ path: "src/config/.env" });
+
+dotenv.config({ path: "src/config/.env", debug: true });
 
 const app: Application = express();
 const PORT = process.env.PORT || 4000;
