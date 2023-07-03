@@ -8,10 +8,10 @@ import UserRoutes from "./routes/userRoutes";
 
 import { initiateModelWithMongoose } from "./db/initiateModel";
 
-dotenv.config({ path: "src/config/.env", debug: true });
-
+dotenv.config({ path: "./src/config/.env" });
 const app: Application = express();
 const PORT = process.env.PORT || 4000;
+const DB_URI = process.env.MONGO_URI;
 
 app.use(express.json());
 app.use(cors());
@@ -25,8 +25,8 @@ app.use("/api/users", UserRoutes);
 
 async function startServer() {
   try {
-    await connectDB();
-    await initiateModelWithMongoose(process.env.MONGO_URI);
+    await connectDB(DB_URI);
+    await initiateModelWithMongoose(DB_URI);
     app.listen(PORT, () => {
       console.log(`Listening on port: ${PORT}`);
     });

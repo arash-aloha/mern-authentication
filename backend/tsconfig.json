@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
-    "sourceMap": true,
-    "moduleResolution": "node",
-    "target": "ES6",
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "outDir": "dist",
-    "esModuleInterop": true
+    "sourceMap": true
   },
-  "ts-node": {
-    "esm": true
-  }
+  "exclude": ["node_modules", ".vscode"]
 }

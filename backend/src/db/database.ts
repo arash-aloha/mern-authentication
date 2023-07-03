@@ -1,7 +1,6 @@
 import * as mongoDB from "mongodb";
 
-export async function connectDB() {
-  const uri: string = process.env.MONGO_URI;
+export async function connectDB(uri: string) {
   const databaseName = process.env.DB;
   const collectionName = process.env.COLLECTION;
   const databaseOptions = {

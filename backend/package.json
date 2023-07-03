@@ -4,14 +4,14 @@
   "description": "",
   "main": "server.js",
   "engines": {
-    "node": "16.x",
+    "node": "20.x",
     "npm": "9.x"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .ts",
     "start": "npm run build && node dist/server.js",
-    "dev": "nodemon /src/server.ts",
+    "dev": "nodemon",
     "dev-ts": "ts-node-dev src/server.ts",
     "build": "npx tsc"
   },
@@ -41,6 +41,7 @@
     "eslint": "^8.39.0",
     "eslint-plugin-react": "^7.32.2",
     "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.1.6"
   },

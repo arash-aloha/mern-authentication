@@ -1,7 +1,7 @@
 import { IUserDocument, UserSchema } from "../models/UserModel";
 import mongoose from "mongoose";
 
-export async function initiateModelWithMongoose(mongoDbUri: string) {
+export async function initiateModelWithMongoose(mongoDbUri) {
   try {
     await mongoose.connect(mongoDbUri);
     await mongoose.model<IUserDocument>("User", UserSchema);
