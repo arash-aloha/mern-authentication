@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { patchService } from "../services/service.patch";
 import { checkIsValidId } from "../services/service.utils";
 import { validateRequestBody } from "../helpers/helper.validateRequestBody";
+import Logging from "../logger/log";
 
 export const patchController = async (req: Request, res: Response) => {
   try {
@@ -31,10 +32,8 @@ export const patchController = async (req: Request, res: Response) => {
           message: res.json(user.message),
         };
   } catch (error) {
-    console.log("error in controller patch");
-    console.error(error.message);
-    return {
-      statusCode: res.status(500).json({ message: error.message }),
-    };
+    Logging.error("error in Patch controller");
+    Logging.error(error);
+    return res.status(500).json({ message: error.message });
   }
 };

@@ -1,18 +1,18 @@
 import Logging from "../logger/log";
 import UserModel from "../models/UserModel";
 
-export async function patchService(id, update, option) {
+export async function getUserByIdService(id: string) {
   try {
-    const query = await UserModel.findByIdAndUpdate(id, update, option);
+    const query = await UserModel.findById(id);
     if (query) {
       return {
         payload: query,
-        message: "Updated.",
-        statusCode: 201,
+        message: "User found.",
+        statusCode: 200,
       };
     }
   } catch (error) {
-    Logging.error("ERROR in Patch service: ");
+    Logging.error("ERROR in UserById service: ");
     Logging.error(error);
     return {
       message: error.message,

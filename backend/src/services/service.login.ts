@@ -1,3 +1,4 @@
+import Logging from "../logger/log";
 import UserModel, { IUserInput } from "../models/UserModel";
 
 export const loginService = async (
@@ -5,7 +6,6 @@ export const loginService = async (
   password: IUserInput["password"]
 ) => {
   try {
-    console.log("USER ID in service", userId);
     // prettier-ignore
     const documentFieldsToInclude = "+authentication.salt +authentication.hashedPassword";
 
@@ -13,7 +13,6 @@ export const loginService = async (
       $or: [{ email: userId }, { username: userId }],
     }).select(documentFieldsToInclude);
 
-    console.log("user: ", user);
     if (!user) {
       return {
         message: "No user was found with these credentials.",
@@ -36,7 +35,8 @@ export const loginService = async (
       };
     }
   } catch (error) {
-    console.error("ERROR in service: ", error);
+    Logging.error("ERROR in Login service: ");
+    Logging.error(error);
     return {
       message: error.message,
       statusCode: 404,

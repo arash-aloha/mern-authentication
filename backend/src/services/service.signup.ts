@@ -1,3 +1,4 @@
+import Logging from "../logger/log";
 import UserModel, { IUserDocument, IUserInput } from "../models/UserModel";
 
 export async function signupService(values: IUserInput) {
@@ -20,7 +21,8 @@ export async function signupService(values: IUserInput) {
           statusCode: 401,
         };
   } catch (error) {
-    console.error("ERROR in service - creating user: ", error);
+    Logging.error("ERROR in Signup service: ");
+    Logging.error(error);
     return {
       message: error.message,
       statusCode: 500,

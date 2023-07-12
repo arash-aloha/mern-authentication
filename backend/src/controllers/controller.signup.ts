@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { signupService } from "../services/service.signup";
 import { getUserByEmail } from "../services/service.utils";
 import { validateRequestBody } from "../helpers/helper.validateRequestBody";
+import Logging from "../logger/log";
 
 export const signupController = async (req: Request, res: Response) => {
   try {
@@ -45,6 +46,8 @@ export const signupController = async (req: Request, res: Response) => {
           statusCode: res.status(newUser.statusCode),
         };
   } catch (error) {
+    Logging.error("error in signup controller: ");
+    Logging.error(error);
     return res.status(500).json({ message: error.message });
   }
 };

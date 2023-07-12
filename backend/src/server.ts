@@ -49,11 +49,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 /* Healthcheck */
-app.use("/api/ping", (req, res, next) =>
+app.use("/api/ping", (req: Request, res: Response, next: NextFunction) =>
   res.status(200).json({ message: "pong" })
 );
 /* Routes */
 app.use("/api/users", UserRoutes);
+
 /* Error handling */
 app.use((req, res, next) => {
   const error = new Error("Page not found.");

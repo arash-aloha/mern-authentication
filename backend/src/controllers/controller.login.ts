@@ -5,6 +5,7 @@ import {
   validateRequestBodyForLogin,
 } from "../helpers/helper.validateRequestBody";
 import { loginService } from "../services/service.login";
+import Logging from "../logger/log";
 
 export const loginController = async (req: Request, res: Response) => {
   try {
@@ -48,7 +49,8 @@ export const loginController = async (req: Request, res: Response) => {
           message: res.json(user.message),
         };
   } catch (error) {
-    console.log("ERROR in Login controller", error);
+    Logging.error("error in login controller: ");
+    Logging.error(error);
     return res.status(500).json({ message: error.message });
   }
 };

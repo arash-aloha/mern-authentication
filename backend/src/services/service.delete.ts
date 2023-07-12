@@ -1,9 +1,9 @@
+import Logging from "../logger/log";
 import UserModel from "../models/UserModel";
 
-export async function deleteService(id) {
+export async function deleteService(id: string) {
   try {
     const query = await UserModel.findByIdAndDelete(id);
-    console.log("query: ", query);
     if (query) {
       return {
         payload: query,
@@ -12,7 +12,8 @@ export async function deleteService(id) {
       };
     }
   } catch (error) {
-    console.error("error in patch service", error.message);
+    Logging.error("ERROR in Delete service: ");
+    Logging.error(error);
     return {
       message: error.message,
       statusCode: 400,
