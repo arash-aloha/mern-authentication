@@ -49,7 +49,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 /* Healthcheck */
-app.use("/api/ping", (req: Request, res: Response, next: NextFunction) =>
+app.use("/api/ping", (req: Request, res: Response) =>
   res.status(200).json({ message: "pong" })
 );
 /* Routes */

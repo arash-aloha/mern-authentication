@@ -4,8 +4,6 @@ import UserModel from "../models/UserModel";
 export async function getAllUsersService() {
   try {
     const query = await UserModel.find().sort({ createdAt: "ascending" });
-    Logging.info("query");
-    Logging.info(query);
     if (query) {
       return {
         payload: query,
