@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express, { Application, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from "path";
 
 import { connectDB } from "./db/database";
 import UserRoutes from "./routes/userRoutes";
@@ -29,8 +30,16 @@ async function startServer() {
 
 startServer();
 
+/** TO DO **/
+/*
+1) jwt and cookies
+2) create logic for login limit
+*/
+
+// middlewares
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use((req: Request, res: Response, next: NextFunction) => {
   /** Log requests **/
   Logging.info(
@@ -62,3 +71,9 @@ app.use((req, res, next) => {
 
   return res.status(404).json({ message: error.message });
 });
+
+// app.use(express.static(path.resolve("build/")));
+// app.get("*", (req, res) => {
+//   console.log("* is being called...");
+//   res.sendFile(path.resolve("build/index.html"));
+// });
