@@ -11,7 +11,7 @@ export async function connectDB(uri: string) {
 
   const client: mongoDB.MongoClient = new mongoDB.MongoClient(
     uri,
-    databaseOptions
+    databaseOptions,
   );
 
   try {

@@ -3,7 +3,7 @@ import UserModel, { IUserInput } from "../models/UserModel";
 
 export const loginService = async (
   userId: IUserInput["email"] | IUserInput["username"],
-  password: IUserInput["password"]
+  password: IUserInput["password"],
 ) => {
   try {
     // prettier-ignore
@@ -21,7 +21,7 @@ export const loginService = async (
     } else {
       const validatePassword = await user.validatePassword(
         password,
-        user.authentication.salt
+        user.authentication.salt,
       );
       if (!validatePassword) {
         return {

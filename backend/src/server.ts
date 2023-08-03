@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import express, { Application, NextFunction, Request, Response } from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
@@ -11,7 +11,7 @@ import { initiateModelWithMongoose } from "./db/initiateModel";
 import Logging from "./logger/log";
 
 dotenv.config({ path: "./src/config/.env" });
-const app: Application = express();
+const app: Express = express();
 const PORT = process.env.PORT || 4000;
 const DB_URI = process.env.MONGO_URI;
 
@@ -33,7 +33,7 @@ startServer();
 /** TO DO **/
 /*
 1) jwt and cookies
-2) create logic for login limit
+2) create a login limit
 */
 
 // middlewares

@@ -48,7 +48,7 @@ export async function validateRequestBody(userInput): Promise<{
 
 export function createErrorResponse(
   fieldName: string,
-  value: string | unknown
+  value: string | unknown,
 ): { statusCode: number; message: string } {
   return {
     message: `Could not read ${fieldName}: '${value}'`,
