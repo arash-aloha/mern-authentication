@@ -1,30 +1,30 @@
 import { Request, Response } from "express";
 import {
-  identifyUsernameOrEmailType,
-  identifyUsernameOrEmailValue,
+  idTypeUsernameOrEmail,
+  idValueUsernameOrEmail,
   validateRequestBodyForLogin,
-} from "../helpers/helper.validateRequestBody";
-import { loginService } from "../services/service.login";
+} from "../helpers/validateRequestBody";
+import { loginService } from "../services/login";
 import Logging from "../logger/log";
 
 export const loginController = async (req: Request, res: Response) => {
   try {
     const { username, email, password } = req.body;
 
-    // Determine the field (username | email on the FE) used for login
-    const userIdType = await identifyUsernameOrEmailType(username);
-    const userIdValue = await identifyUsernameOrEmailValue(username, email);
-
-    console.log("user id type: ", userIdType);
-    console.log("user id value: ", userIdValue);
-
     if (!username && !email) {
       return res.status(400).json({
         message: "Please provide either username or email for login.",
       });
     }
-    console.log("password in controller", password);
-    const validationError = await validateRequestBodyForLogin({
+
+    // Determine the field (username | email on the FE) used for login
+    const userIdType = idTypeUsernameOrEmail(username);
+    const userIdValue = idValueUsernameOrEmail(username, email);
+
+    console.log("user id type: ", userIdType);
+    console.log("user id value: ", userIdValue);
+
+    const validationError = validateRequestBodyForLogin({
       userIdType,
       password,
     });

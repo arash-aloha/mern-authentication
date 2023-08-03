@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { signupController } from "../controllers/controller.signup";
-import { loginController } from "../controllers/controller.login";
-import { patchController } from "../controllers/controller.patch";
-import { deleteController } from "../controllers/controller.delete";
-import { getUserByIdController } from "../controllers/controller.getUserById";
-import { getAllUsersController } from "../controllers/controller.getAllUsers";
+import { signupController } from "../controllers/signup";
+import { loginController } from "../controllers/login";
+import { patchController } from "../controllers/patch";
+import { deleteController } from "../controllers/delete";
+import { getUserByIdController } from "../controllers/getUserById";
+import { getAllUsersController } from "../controllers/getAllUsers";
 
 const UserRoutes: Router = Router();
 

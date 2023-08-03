@@ -5,3 +5,23 @@ MERN App
 A side project just for fun, doing little by little when I get some time over.
 
 Work in progress.
+
+---
+
+User authentication
+User login and signup
+
+---
+
+baseUrl:
+localhost:4000/api/users
+endpoints:
+/login
+/signup
+/patch
+/delete
+
+---
+
+No test suits are made at this point due to external testing of endpoints through Insomnia.
+In the future tests will be added

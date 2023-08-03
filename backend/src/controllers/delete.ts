@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { checkIsValidId } from "../services/service.utils";
-import { deleteService } from "../services/service.delete";
+import { checkIsValidId } from "../helpers/serviceUtils";
+import { deleteService } from "../services/delete";
 import Logging from "../logger/log";
 
 export const deleteController = async (req: Request, res: Response) => {

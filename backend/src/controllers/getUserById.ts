@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { checkIsValidId } from "../services/service.utils";
+import { checkIsValidId } from "../helpers/serviceUtils";
 import Logging from "../logger/log";
-import { getUserByIdService } from "../services/service.getUserById";
+import { getUserByIdService } from "../services/getUserById";
 
 export const getUserByIdController = async (req: Request, res: Response) => {
   try {

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { patchService } from "../services/service.patch";
-import { checkIsValidId } from "../services/service.utils";
-import { validateRequestBody } from "../helpers/helper.validateRequestBody";
+import { patchService } from "../services/patch";
+import { checkIsValidId } from "../helpers/serviceUtils";
+import { validateRequestBody } from "../helpers/validateRequestBody";
 import Logging from "../logger/log";
 
 export const patchController = async (req: Request, res: Response) => {

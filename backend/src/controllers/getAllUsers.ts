@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Logging from "../logger/log";
-import { getAllUsersService } from "../services/service.getAllUsers";
+import { getAllUsersService } from "../services/getAllUsers";
 
 export const getAllUsersController = async (req: Request, res: Response) => {
   try {

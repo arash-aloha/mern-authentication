@@ -6,20 +6,23 @@ const RequiredFields = [
   "username",
 ];
 
-export async function identifyUsernameOrEmailType(userId) {
+export function idTypeUsernameOrEmail(userId: string): string {
   return userId ? "username" : "email";
 }
-export async function identifyUsernameOrEmailValue(username, email) {
+export function idValueUsernameOrEmail(
+  username: string,
+  email: string
+): string {
   return username ? username : email;
 }
 
-export async function validateRequestBodyForLogin(loginFields: {
-  userIdType: string;
+export function validateRequestBodyForLogin(loginFields: {
+  userIdType: string | undefined;
   password: string | undefined;
-}): Promise<{
+}): {
   statusCode: number;
   message: string;
-} | null> {
+} | null {
   const userIdFieldValue = Object.values(loginFields)[0];
   const passwordFieldValue = Object.values(loginFields)[1];
 
@@ -33,10 +36,10 @@ export async function validateRequestBodyForLogin(loginFields: {
   }
 }
 
-export async function validateRequestBody(userInput): Promise<{
+export function validateRequestBody(userInput: any): {
   statusCode: number;
   message: string;
-}> | null {
+} | null {
   for (const field in userInput) {
     if (!userInput[field]) {
       return createErrorResponse(field, userInput[field]);
@@ -48,7 +51,7 @@ export async function validateRequestBody(userInput): Promise<{
 
 export function createErrorResponse(
   fieldName: string,
-  value: string | unknown,
+  value: string | unknown
 ): { statusCode: number; message: string } {
   return {
     message: `Could not read ${fieldName}: '${value}'`,
