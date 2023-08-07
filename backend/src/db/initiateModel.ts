@@ -1,12 +1,12 @@
-import { IUserDocument, UserSchema } from "../models/UserModel";
+import Logging from "../logger/log";
 import mongoose from "mongoose";
 
-export async function initiateModelWithMongoose(mongoDbUri) {
+export async function initiateModelWithMongoose(mongoDbUri: string) {
   try {
     await mongoose.connect(mongoDbUri);
-    await mongoose.model<IUserDocument>("User", UserSchema);
+    Logging.warn(`Successfully initiated with Mongoose.`);
   } catch (error) {
-    console.log("Mongoose did not connect", error);
-    throw Error("Mongoose did not connect!");
+    Logging.error(`Something went wrong when connecting with Mongoose!`);
+    Logging.error(error);
   }
 }

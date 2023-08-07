@@ -1,29 +1,24 @@
 import * as mongoDB from "mongodb";
+import Logging from "../logger/log";
 
 export async function connectDB(uri: string) {
-  const databaseName = process.env.DB;
-  const collectionName = process.env.COLLECTION;
   const databaseOptions = {
     useNewUrlParser: true,
-    // useUnifiedTopology: true,
+    useUnifiedTopology: true,
     monitorCommands: true,
   };
 
   const client: mongoDB.MongoClient = new mongoDB.MongoClient(
     uri,
-    databaseOptions,
+    databaseOptions
   );
 
   try {
     await client.connect();
-    const database: mongoDB.Db = client.db(databaseName);
-    // prettier-ignore
-    const userCollection: mongoDB.Collection = database.collection(collectionName);
-
-    console.log(`Successfully connected to database: ${database.databaseName}`);
-    console.log(`collection: ${userCollection.collectionName}`);
+    Logging.warn(`Successfully connected to Database.`);
   } catch (error) {
-    console.error("Oops... Connection to Database broke.", error);
+    Logging.error("Oops... Connection to Database broke.");
+    Logging.error(error);
   } finally {
     await client.close();
   }
