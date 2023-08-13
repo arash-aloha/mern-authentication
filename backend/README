@@ -13,13 +13,11 @@ User login and signup
 
 ---
 
-baseUrl:
-localhost:4000/api/users
-endpoints:
-/login
-/signup
-/patch
-/delete
+RESOURCE HTTP METHOD ROUTE DESCRIPTION
+users GET /api/users returns all the users and their information
+users GET /api/users/me return the logged-in user’s information
+auth POST /api/auth/register Create a new user
+auth POST /api/auth/login Logs the user in
 
 ---
 

@@ -5,6 +5,7 @@ export async function deleteService(id: string) {
   try {
     const query = await UserModel.findByIdAndDelete(id);
     if (query) {
+      Logging.warn(query);
       return {
         payload: query,
         message: "User deleted.",

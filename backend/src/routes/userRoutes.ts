@@ -6,18 +6,21 @@ import { deleteController } from "../controllers/delete";
 import { getUserByIdController } from "../controllers/getUserById";
 import { getAllUsersController } from "../controllers/getAllUsers";
 
+import limiter from "../middleware/limiter";
+import { verifyToken } from "../middleware/verifyToken";
+
 const UserRoutes: Router = Router();
 
-UserRoutes.post("/login", loginController);
+UserRoutes.post("/login", limiter.apiLimiter, loginController);
 
-UserRoutes.post("/signup", signupController);
+UserRoutes.post("/signup", limiter.createAccountLimiter, signupController);
 
-UserRoutes.patch("/:id", patchController);
+UserRoutes.patch("/:id", verifyToken, patchController);
 
-UserRoutes.delete("/:id", deleteController);
+UserRoutes.delete("/:id", verifyToken, deleteController);
 
-UserRoutes.get("/", getAllUsersController);
+UserRoutes.get("/", verifyToken, getAllUsersController);
 
-UserRoutes.get("/:id", getUserByIdController);
+UserRoutes.get("/:id", verifyToken, getUserByIdController);
 
 export default UserRoutes;

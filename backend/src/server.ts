@@ -33,7 +33,6 @@ startServer();
 /** TO DO **/
 /*
 1) jwt and cookies
-2) create a login limit
 */
 
 // middlewares
@@ -55,7 +54,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 /* Healthcheck */
 app.use("/api/ping", (req: Request, res: Response) =>
@@ -71,9 +69,3 @@ app.use((req, res, next) => {
 
   return res.status(404).json({ message: error.message });
 });
-
-// app.use(express.static(path.resolve("build/")));
-// app.get("*", (req, res) => {
-//   console.log("* is being called...");
-//   res.sendFile(path.resolve("build/index.html"));
-// });

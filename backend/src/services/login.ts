@@ -1,9 +1,12 @@
+import dotenv from "dotenv";
+dotenv.config({ path: "./src/config/.env" });
 import Logging from "../logger/log";
 import UserModel, { IUserInput } from "../models/UserModel";
+import { generateAccessToken } from "../middleware/generateToken";
 
 export const loginService = async (
   userId: IUserInput["email"] | IUserInput["username"],
-  password: IUserInput["password"],
+  password: IUserInput["password"]
 ) => {
   try {
     // prettier-ignore
@@ -16,30 +19,39 @@ export const loginService = async (
     if (!user) {
       return {
         message: "No user was found with these credentials.",
-        statusCode: 404,
       };
     } else {
       const validatePassword = await user.validatePassword(
         password,
-        user.authentication.salt,
+        user.authentication.salt
       );
       if (!validatePassword) {
         return {
           message: "Incorrect credentials.",
-          statusCode: 404,
         };
       }
+
+      const accessToken = generateAccessToken(user.username);
+
+      Logging.warn(accessToken);
+
       return {
+        data: {
+          user: {
+            firstName: user.firstName,
+            email: user.email,
+          },
+        },
+        sessionToken: accessToken,
         message: "Logged in.",
         statusCode: 200,
       };
     }
   } catch (error) {
-    Logging.error("ERROR in Login service: ");
     Logging.error(error);
     return {
       message: error.message,
-      statusCode: 404,
+      statusCode: 500,
     };
   }
 };

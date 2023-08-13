@@ -53,7 +53,6 @@ export const UserSchema = new Schema<IUserDocument>(
       lowercase: true,
       required: [true, "can't be blank"],
       match: [/\S+@\S+\.\S+/, "is invalid"],
-      // index: true,
     },
     // role: {
     //   type: String,
@@ -70,11 +69,11 @@ export const UserSchema = new Schema<IUserDocument>(
     bufferCommands: true,
     bufferTimeoutMS: 7000,
     timestamps: true,
-  },
+  }
 );
 
 UserSchema.methods.setPassword = async function (
-  password: string,
+  password: string
 ): Promise<void> {
   try {
     // Creating a unique salt for a particular user
@@ -85,7 +84,7 @@ UserSchema.methods.setPassword = async function (
       this.authentication.salt,
       1000,
       64,
-      `sha512`,
+      `sha512`
     ).toString(`hex`);
   } catch (error) {
     console.error(error);
@@ -95,7 +94,7 @@ UserSchema.methods.setPassword = async function (
 
 UserSchema.methods.validatePassword = async function (
   password: string,
-  salt,
+  salt: string
 ): Promise<boolean> {
   try {
     const result = await pbkdf2Sync(
@@ -103,7 +102,7 @@ UserSchema.methods.validatePassword = async function (
       salt,
       1000,
       64,
-      "sha512",
+      "sha512"
     ).toString("hex");
     return this.authentication.hashedPassword === result;
   } catch (error) {

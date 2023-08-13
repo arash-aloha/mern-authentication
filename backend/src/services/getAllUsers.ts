@@ -4,19 +4,23 @@ import UserModel from "../models/UserModel";
 export async function getAllUsersService() {
   try {
     const query = await UserModel.find().sort({ createdAt: "ascending" });
-    if (query) {
+    if (query.length >= 1) {
       return {
         payload: query,
         message: "Users found.",
         statusCode: 200,
       };
+    } else {
+      return {
+        message: "No users found.",
+        statusCode: 204,
+      };
     }
   } catch (error) {
-    Logging.error("ERROR in UserById service: ");
     Logging.error(error);
     return {
       message: error.message,
-      statusCode: 400,
+      statusCode: 500,
     };
   }
 }

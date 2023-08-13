@@ -15,7 +15,6 @@ export const getAllUsersController = async (req: Request, res: Response) => {
           message: res.json(users.message),
         };
   } catch (error) {
-    Logging.error("error in UserById controller");
     Logging.error(error);
     return res.status(500).json({ message: error.message });
   }

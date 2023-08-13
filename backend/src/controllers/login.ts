@@ -21,9 +21,6 @@ export const loginController = async (req: Request, res: Response) => {
     const userIdType = idTypeUsernameOrEmail(username);
     const userIdValue = idValueUsernameOrEmail(username, email);
 
-    console.log("user id type: ", userIdType);
-    console.log("user id value: ", userIdValue);
-
     const validationError = validateRequestBodyForLogin({
       userIdType,
       password,
@@ -38,19 +35,35 @@ export const loginController = async (req: Request, res: Response) => {
 
     // log in
     const user = await loginService(userIdValue, password);
-    console.log("response in controller: ", user);
     return user
-      ? {
-          statusCode: res.status(user.statusCode),
-          message: res.json(user.message),
-        }
-      : {
-          statusCode: res.status(user.statusCode),
-          message: res.json(user.message),
-        };
+      ? res
+          .status(user.statusCode)
+          .cookie("authentication", user.sessionToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "lax",
+          })
+          .json({ message: user.message, data: user.data })
+      : res.status(404).json({ message: user.message });
   } catch (error) {
     Logging.error("error in login controller: ");
     Logging.error(error);
     return res.status(500).json({ message: error.message });
   }
 };
+
+export interface ResponseObject {
+  data: UserObject | null;
+  message: string;
+  statusCode: number;
+}
+
+export interface UserObject {
+  user: {
+    firstName: string;
+    email: string;
+    authentication: {
+      sessionToken: string;
+    };
+  };
+}
