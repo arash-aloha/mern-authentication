@@ -1,24 +1,17 @@
 import { Request, Response } from "express";
 import { checkIsValidId } from "../helpers/serviceUtils";
-import { deleteService } from "../services/delete";
-import { patchService } from "../services/patch";
 import { validateRequestBody } from "../helpers/validateRequestBody";
+import usersService from "../services/usersService";
 import Logging from "../logger/log";
-import { getAllUsersService } from "../services/getAllUsers";
-import { getUserByIdService } from "../services/getUserById";
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const users = await getAllUsersService();
+    const users = await usersService.getAllUsers();
     return users
-      ? {
-          statusCode: res.status(users.statusCode),
-          payload: res.json({ data: users.payload, message: users.message }),
-        }
-      : {
-          statusCode: res.status(users.statusCode),
-          message: res.json(users.message),
-        };
+      ? res
+          .status(users.statusCode)
+          .json({ data: users.payload, message: users.message })
+      : res.status(users.statusCode).json({ message: users.message });
   } catch (error) {
     Logging.error(error);
     return res.status(500).json({ message: error.message });
@@ -30,21 +23,16 @@ const getUserById = async (req: Request, res: Response) => {
     const id = req.params.id;
 
     if (!checkIsValidId(id)) {
-      return res.status(404).json({ message: "This is not a valid ID" });
+      return res.status(400).json({ message: "This is not a valid ID" });
     }
 
-    const user = await getUserByIdService(id);
+    const user = await usersService.getUserById(id);
     return user
-      ? {
-          statusCode: res.status(user.statusCode),
-          payload: res.json({ data: user.payload, message: user.message }),
-        }
-      : {
-          statusCode: res.status(user.statusCode),
-          message: res.json(user.message),
-        };
+      ? res
+          .status(user.statusCode)
+          .json({ data: user.payload, message: user.message })
+      : res.status(404).json({ message: user.message });
   } catch (error) {
-    Logging.error("error in UserById controller");
     Logging.error(error);
     return res.status(500).json({ message: error.message });
   }
@@ -67,7 +55,7 @@ const patchUser = async (req: Request, res: Response) => {
         .json(validationError.message);
     }
 
-    const user = await patchService(id, updatePayload, option);
+    const user = await usersService.patchUser(id, updatePayload, option);
     return user
       ? res
           .status(user.statusCode)
@@ -85,16 +73,12 @@ const deleteUser = async (req: Request, res: Response) => {
     if (!checkIsValidId(id)) {
       return res.status(404).json({ message: "This is not a valid ID" });
     }
-    const user = await deleteService(id);
+    const user = await usersService.deleteUser(id);
     return user
-      ? {
-          statusCode: res.status(user.statusCode),
-          payload: res.json({ data: user.payload, message: user.message }),
-        }
-      : {
-          statusCode: res.status(user.statusCode),
-          message: res.json(user.message),
-        };
+      ? res
+          .status(user.statusCode)
+          .json({ data: user.payload, message: user.message })
+      : res.status(404).json(user.message);
   } catch (error) {
     Logging.error("error in delete controller: ");
     Logging.error(error);

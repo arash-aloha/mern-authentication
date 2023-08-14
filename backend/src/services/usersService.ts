@@ -13,7 +13,7 @@ async function getAllUsers() {
     } else {
       return {
         message: "No users found.",
-        statusCode: 204,
+        statusCode: 404,
       };
     }
   } catch (error) {
@@ -34,9 +34,12 @@ async function getUserById(id: string) {
         message: "User found.",
         statusCode: 200,
       };
+    } else {
+      return {
+        message: "No user was found with this ID.",
+      };
     }
   } catch (error) {
-    Logging.error("ERROR in UserById service: ");
     Logging.error(error);
     return {
       message: error.message,
@@ -58,6 +61,10 @@ async function patchUser(
         message: "Updated.",
         statusCode: 201,
       };
+    } else {
+      return {
+        message: "Something went wrong.",
+      };
     }
   } catch (error) {
     Logging.error(error);
@@ -73,15 +80,17 @@ async function deleteUser(id: string) {
   try {
     const query = await UserModel.findByIdAndDelete(id);
     if (query) {
-      Logging.warn(query);
       return {
         payload: query,
         message: "User deleted.",
         statusCode: 201,
       };
+    } else {
+      return {
+        message: "Something went wrong.",
+      };
     }
   } catch (error) {
-    Logging.error("ERROR in Delete service: ");
     Logging.error(error);
     return {
       message: error.message,
