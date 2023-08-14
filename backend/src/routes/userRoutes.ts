@@ -1,26 +1,27 @@
 import { Router } from "express";
-import { signupController } from "../controllers/signup";
-import { loginController } from "../controllers/login";
-import { patchController } from "../controllers/patch";
-import { deleteController } from "../controllers/delete";
-import { getUserByIdController } from "../controllers/getUserById";
-import { getAllUsersController } from "../controllers/getAllUsers";
 
+import authController from "../controllers/authController";
+import usersController from "../controllers/usersController";
 import limiter from "../middleware/limiter";
+
 import { verifyToken } from "../middleware/verifyToken";
 
 const UserRoutes: Router = Router();
 
-UserRoutes.post("/login", limiter.apiLimiter, loginController);
+UserRoutes.post("/auth/login", limiter.apiLimiter, authController.login);
 
-UserRoutes.post("/signup", limiter.createAccountLimiter, signupController);
+UserRoutes.post(
+  "/auth/signup",
+  limiter.createAccountLimiter,
+  authController.signup
+);
 
-UserRoutes.patch("/:id", verifyToken, patchController);
+UserRoutes.patch("/user/:id", verifyToken, usersController.patchUser);
 
-UserRoutes.delete("/:id", verifyToken, deleteController);
+UserRoutes.delete("/user/:id", verifyToken, usersController.deleteUser);
 
-UserRoutes.get("/", verifyToken, getAllUsersController);
+UserRoutes.get("/user/users", verifyToken, usersController.getAllUsers);
 
-UserRoutes.get("/:id", verifyToken, getUserByIdController);
+UserRoutes.get("/user/:id", verifyToken, usersController.getUserById);
 
 export default UserRoutes;

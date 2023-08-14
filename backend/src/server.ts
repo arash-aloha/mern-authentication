@@ -60,7 +60,7 @@ app.use("/api/ping", (req: Request, res: Response) =>
   res.status(200).json({ message: "pong" })
 );
 /* Routes */
-app.use("/api/users", UserRoutes);
+app.use("/api", UserRoutes);
 
 /* Error handling */
 app.use((req, res, next) => {
