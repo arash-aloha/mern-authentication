@@ -21,6 +21,7 @@ const login = async (
 
     if (!user) {
       return {
+        statusCode: 404,
         message: "No user was found with these credentials.",
       };
     } else {

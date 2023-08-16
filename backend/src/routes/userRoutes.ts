@@ -16,12 +16,12 @@ UserRoutes.post(
   authController.signup
 );
 
-UserRoutes.patch("/user/:id", verifyToken, usersController.patchUser);
+UserRoutes.patch("/users/:id", verifyToken, usersController.patchUser);
 
-UserRoutes.delete("/user/:id", verifyToken, usersController.deleteUser);
+UserRoutes.delete("/users/:id", verifyToken, usersController.deleteUser);
 
-UserRoutes.get("/user/users", verifyToken, usersController.getAllUsers);
+UserRoutes.get("/users/all", verifyToken, usersController.getAllUsers);
 
-UserRoutes.get("/user/:id", verifyToken, usersController.getUserById);
+UserRoutes.get("/users/:id", verifyToken, usersController.getUserById);
 
 export default UserRoutes;
