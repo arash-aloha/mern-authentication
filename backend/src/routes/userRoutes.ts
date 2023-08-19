@@ -16,6 +16,8 @@ UserRoutes.post(
   authController.signup
 );
 
+UserRoutes.post("/auth/logout", authController.logout);
+
 UserRoutes.patch("/users/:id", verifyToken, usersController.patchUser);
 
 UserRoutes.delete("/users/:id", verifyToken, usersController.deleteUser);

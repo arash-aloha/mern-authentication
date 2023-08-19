@@ -10,7 +10,9 @@ import { validateRequestBody } from "../helpers/validateRequestBody";
 import Logging from "../logger/log";
 
 /*************
-  @desc: login
+  @desc: login user
+  @route /auth/login
+  @access public
 **************/
 
 const login = async (req: Request, res: Response) => {
@@ -44,7 +46,7 @@ const login = async (req: Request, res: Response) => {
     return user
       ? res
           .status(user.statusCode)
-          .cookie("authentication", user.sessionToken, {
+          .cookie("playtoken", user.sessionToken, {
             httpOnly: true,
             secure: true,
             sameSite: "lax",
@@ -75,10 +77,12 @@ export interface UserObject {
 }
 
 /*************
-  @desc: signup
+  @desc: create a new user
+  @route /auth/signup
+  @access public
 **************/
 
-export const signup = async (req: Request, res: Response) => {
+const signup = async (req: Request, res: Response) => {
   try {
     const { email, password, firstName, lastName, username } = req.body;
     // validatebody function needs to be refactored
@@ -110,19 +114,28 @@ export const signup = async (req: Request, res: Response) => {
     });
 
     return newUser
-      ? {
-          message: res.json({ message: newUser.message }),
-          statusCode: res.status(newUser.statusCode),
-        }
-      : {
-          message: res.json({ message: newUser.message }),
-          statusCode: res.status(newUser.statusCode),
-        };
+      ? res.json({ message: newUser.message }).status(newUser.statusCode)
+      : res.status(400).json({ message: newUser.message });
   } catch (error) {
-    Logging.error("error in signup controller: ");
     Logging.error(error);
     return res.status(500).json({ message: error.message });
   }
 };
 
-export default { login, signup };
+/************** 
+@desc Logout
+@route POST /auth/logout
+@access Public - just to clear cookie if exists
+***************/
+const logout = (req: Request, res: Response) => {
+  const cookies = req.cookies;
+  if (!cookies?.playtoken) return res.sendStatus(204); //No content
+  res.clearCookie("playtoken", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: true,
+  });
+  res.json({ message: "Cookie cleared" });
+};
+
+export default { login, signup, logout };

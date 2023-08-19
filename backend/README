@@ -9,15 +9,15 @@ Work in progress.
 ---
 
 User authentication
-User login and signup
+login and signup
 
 ---
 
 RESOURCE HTTP METHOD ROUTE DESCRIPTION
-users GET /api/users returns all the users and their information
-users GET /api/users/me return the logged-in user’s information
-auth POST /api/auth/register Create a new user
-auth POST /api/auth/login Logs the user in
+users GET /users/all returns all the users and their information
+users GET /users/me return the logged-in user’s information
+auth POST /auth/signup Create a new user
+auth POST /auth/login Logs the user in
 
 ---
 

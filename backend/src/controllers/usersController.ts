@@ -80,7 +80,6 @@ const deleteUser = async (req: Request, res: Response) => {
           .json({ data: user.payload, message: user.message })
       : res.status(404).json(user.message);
   } catch (error) {
-    Logging.error("error in delete controller: ");
     Logging.error(error);
     return res.status(500).json({ message: error.message });
   }
