@@ -40,8 +40,7 @@ const login = async (
       return {
         data: {
           user: {
-            firstName: user.firstName,
-            email: user.email,
+            id: user._id,
           },
         },
         sessionToken: accessToken,
@@ -72,14 +71,16 @@ async function signup(values: IUserInput) {
     await user.setPassword(values.password);
 
     const newUserToDatabase = await user.save();
+    const accessToken = generateAccessToken(user.username);
+
     return newUserToDatabase
       ? {
+          sessionToken: accessToken,
           message: "New user created.",
           statusCode: 201,
         }
       : {
           message: "Could not save user to database.",
-          statusCode: 401,
         };
   } catch (error) {
     Logging.error(error);

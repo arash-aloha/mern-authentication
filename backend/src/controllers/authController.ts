@@ -54,7 +54,6 @@ const login = async (req: Request, res: Response) => {
           .json({ message: user.message, data: user.data })
       : res.status(404).json({ message: user.message });
   } catch (error) {
-    Logging.error("error in login controller: ");
     Logging.error(error);
     return res.status(500).json({ message: error.message });
   }
@@ -114,8 +113,15 @@ const signup = async (req: Request, res: Response) => {
     });
 
     return newUser
-      ? res.json({ message: newUser.message }).status(newUser.statusCode)
-      : res.status(400).json({ message: newUser.message });
+      ? res
+          .status(newUser.statusCode)
+          .cookie("playtoken", newUser.sessionToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "lax",
+          })
+          .json({ message: newUser.message })
+      : res.status(401).json({ message: newUser.message });
   } catch (error) {
     Logging.error(error);
     return res.status(500).json({ message: error.message });
