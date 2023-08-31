@@ -13,8 +13,9 @@
     "backend": "node dist/server.js",
     "dev": "nodemon src/server.ts",
     "frontend": "cd frontend/ && npm start",
+    "build-frontend": "cd frontend/ && npm build",
     "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend",
-    "build": "tsc",
+    "build-backend": "tsc",
     "deploy": "git push heroku main"
   },
   "keywords": [],
