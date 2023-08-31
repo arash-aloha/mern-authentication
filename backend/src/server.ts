@@ -30,11 +30,6 @@ async function startServer() {
 
 startServer();
 
-/** TO DO **/
-/*
-1) jwt and cookies
-*/
-
 // middlewares
 app.use(cors());
 app.use(express.json());
@@ -68,4 +63,10 @@ app.use((req, res, next) => {
   Logging.error(error);
 
   return res.status(404).json({ message: error.message });
+});
+
+app.use(express.static(path.resolve("../../frontend/build/")));
+app.get("*", (req, res) => {
+  console.log("* is being called...");
+  res.sendFile(path.resolve("../../frontend/build/index.html"));
 });
