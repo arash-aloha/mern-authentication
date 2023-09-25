@@ -68,5 +68,6 @@ app.use((req, res, next) => {
 app.use(express.static(path.resolve("../frontend/build/")));
 app.get("*", (req, res) => {
   console.log("* is being called...");
-  res.sendFile(path.resolve("../frontend/build/index.html"));
+  // res.sendFile(path.resolve("../frontend/build/index.html"));
+  res.send("this is from *");
 });
