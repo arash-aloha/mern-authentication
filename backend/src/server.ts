@@ -65,7 +65,7 @@ app.use((req, res, next) => {
   return res.status(404).json({ message: error.message });
 });
 
-app.use(express.static(path.resolve("../frontend/build/")));
+// app.use(express.static(path.resolve("../frontend/build/")));
 app.get("*", (req, res) => {
   console.log("* is being called...");
   // res.sendFile(path.resolve("../frontend/build/index.html"));
