@@ -15,7 +15,7 @@
     "frontend": "cd frontend/ && npm start",
     "build-frontend": "cd frontend/ && npm run build",
     "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend",
-    "build-backend": "tsc",
+    "build-backend": "tsc --jsx react-jsx",
     "deploy": "git push heroku main"
   },
   "keywords": [],
